@@ -1,0 +1,8 @@
+Padrão para commits:
+
+Utilizar o padrão "Conventional Commits" para uma melhor organização e entendimento dos commits.
+Exemplo de commit com o padrão "Conventional Commits":
+
+feat: add endpoint for patient creation
+
+This commit adds a new endpoint for creating patients with all the necessary fields and their respective validations.
