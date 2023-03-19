@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PacienteEnderecoRequest;
 use App\Models\Endereco;
 use App\Models\Paciente;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Jobs\ProcessarImportacaoPacientes;
+use Illuminate\Support\Facades\Storage;
 
 class PacienteController extends Controller
 {
     public function index(Request $request)
     {
+
         $query = Paciente::query();
 
         if ($request->has('nome')) {
@@ -22,7 +25,7 @@ class PacienteController extends Controller
             $query->where('cpf', $request->cpf);
         }
 
-        $pacientes = $query->get();
+        $pacientes = $query->paginate(15);
 
         return response()->json($pacientes);
     }
@@ -33,100 +36,102 @@ class PacienteController extends Controller
 
         return response()->json($paciente);
     }
-
-    public function store(Request $request)
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(PacienteEnderecoRequest $request)
     {
-        $request->validate([
-            'nome_completo' => 'required|string|max:255',
-            'nome_mae' => 'required|string|max:255',
-            'data_nascimento' => 'required|date_format:Y-m-d',
-            'cpf' => 'required|string|max:11',
-            'cns' => 'required|string|max:15',
-            'cep' => 'required|string|max:8',
-            'endereco' => 'required|string|max:255',
-            'numero' => 'required|string|max:255',
-            'complemento' => 'nullable|string|max:255',
-            'bairro' => 'required|string|max:255',
-            'cidade' => 'required|string|max:255',
-            'estado' => 'required|string|max:2',
-            'foto' => 'nullable|image|max:2048',
-        ]);
+        \DB::beginTransaction();
+        $response['data'] = [];
+        $response['status'] = Response::HTTP_CREATED;
 
-        $endereco = Endereco::create([
-            'endereco' => $request->endereco,
-            'numero' => $request->numero,
-            'complemento' => $request->complemento,
-            'bairro' => $request->bairro,
-            'cidade' => $request->cidade,
-            'estado' => $request->estado,
-            'cep' => $request->cep,
-        ]);
-
-        $paciente = Paciente::create([
-            'nome_completo' => $request->nome,
-            'nome_mae' => $request->nome_mae,
-            'data_nascimento' => $request->data_nascimento,
-            'cpf' => $request->cpf,
-            'cns' => $request->cns,
-            'endereco_id' => $endereco->id,
-        ]);
-
-        if ($request->hasFile('foto')) {
-            $paciente->foto = $request->file('foto')->store('public/fotos_pacientes');
+        try{
+            if ($request->hasFile('foto')) {
+                $foto = $request->file('foto')->store('public/fotos_pacientes');
+            }
+            // Inserindo o registro do paciente
+            $paciente                  = new Paciente;
+            $paciente->nome_completo   = $request->nome_completo;
+            $paciente->nome_mae        = $request->nome_mae;
+            $paciente->data_nascimento = $request->data_nascimento;
+            $paciente->cpf             = $request->cpf;
+            $paciente->cns             = $request->cns;
+            $paciente->foto            = $foto ?? NULL;
             $paciente->save();
-        }
 
-        return response()->json($paciente);
+            // Inserir dados na tabela "enderecos"
+            $endereco              = new Endereco;
+            $endereco->endereco    = $request->endereco;
+            $endereco->numero      = $request->numero;
+            $endereco->complemento = $request->complemento;
+            $endereco->bairro      = $request->bairro;
+            $endereco->cidade      = $request->cidade;
+            $endereco->estado      = $request->estado;
+            $endereco->cep         = $request->cep;
+            $endereco->paciente_id = $paciente->id;
+            $endereco->save();
+
+            \DB::commit();
+
+            return response()->json([
+                'paciente' => $paciente,
+                'endereco' => $paciente->endereco,
+            ]);
+
+        }catch(\Exception $exception){
+            $response['data'] = $exception->getMessage();
+            $response['status'] = Response::HTTP_INTERNAL_SERVER_ERROR;
+        }
+        return response()->json([
+            'data' => $response['data'],
+            'status' => $response['status']
+        ], $response['status']);
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(PacienteEnderecoRequest $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'nome_completo' => 'nullable|string|max:255',
-            'nome_mae' => 'nullable|string|max:255',
-            'data_nascimento' => 'nullable|date',
-            'cpf' => 'nullable|string|max:11|unique:pacientes,cpf,' . $id,
-            'cns' => 'nullable|string|max:15|unique:pacientes,cns,' . $id,
-            'endereco.cep' => 'nullable|string|max:255',
-            'endereco.endereco' => 'nullable|string|max:255',
-            'endereco.numero' => 'nullable|string|max:255',
-            'endereco.complemento' => 'nullable|string|max:255',
-            'endereco.bairro' => 'nullable|string|max:255',
-            'endereco.cidade' => 'nullable|string|max:255',
-            'endereco.estado' => 'nullable|string|max:255',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], Response); //422
-        }
-
         $paciente = Paciente::findOrFail($id);
 
-        if ($request->has('endereco')) {
-            $endereco = $paciente->endereco ?? new Endereco();
-            $endereco->fill($request->endereco);
-            $endereco->save();
-
-            $paciente->endereco_id = $endereco->id;
+        if ($request->hasFile('foto')) {
+            $novaFoto = $request->file('foto')->store('public/fotos_pacientes');
+            $novoCaminhoFoto = Storage::url($novaFoto);
+            $paciente->foto = $novoCaminhoFoto;
         }
 
-        $paciente->fill($request->except('endereco'));
-        $paciente->save();
+        $paciente->nome_completo = $request->nome_completo;
+        $paciente->nome_mae = $request->nome_mae;
+        $paciente->data_nascimento = $request->data_nascimento;
+        $paciente->cpf = $request->cpf;
+        $paciente->cns = $request->cns;
+        $endereco = $paciente->endereco;
 
-        return response()->json(['data' => $paciente->load('endereco')]);
+        $endereco->cep = $request->cep;
+        $endereco->endereco = $request->endereco;
+        $endereco->numero = $request->numero;
+        $endereco->complemento = $request->complemento;
+        $endereco->bairro = $request->bairro;
+        $endereco->cidade = $request->cidade;
+        $endereco->estado = $request->estado;
+
+        $paciente->push();
+
+        return response()->json([
+            'paciente' => $paciente,
+            'endereco' => $endereco,
+        ]);
     }
     public function destroy($id)
     {
         $paciente = Paciente::findOrFail($id);
-        $endereco = Endereco::findOrFail($paciente->id);
 
         $paciente->delete();
-        $endereco->delete();
 
         return response()->json(['message' => 'Paciente excluído com sucesso']);
     }
