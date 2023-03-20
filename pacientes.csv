@@ -1,0 +1,3 @@
+nome_completo,nome_mae,data_nascimento,cpf,cns,foto,endereco,numero,complemento,bairro,cidade,estado,cep,
+"Maria da Silva","Ana da Silva","01/01/1980","123.456.789-00","123456789012345","foto1.jpg","Rua A","123","Apto 1","Centro","São Paulo","SP","01234-567"
+"João Souza","Marta Souza","10/05/1995","987.654.321-00","543210987654321","foto2.jpg","Rua B","456","Sala 2","Vila Mariana","São Paulo","SP","02345-678"

@@ -8,8 +8,8 @@ use App\Models\Paciente;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Jobs\ProcessarImportacaoPacientes;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Storage;
-
 class PacienteController extends Controller
 {
     public function index(Request $request)
@@ -138,15 +138,16 @@ class PacienteController extends Controller
 
     public function importar(Request $request)
     {
-        $arquivo = $request->file('arquivo');
 
-        if(!$arquivo){
-            return response()->json(['error' => 'Arquivo nao enviado'], Response::HTTP_BAD_REQUEST); //400
+        $arquivoCsv = $request->file('arquivo_csv');
+
+        if ($arquivoCsv) {
+            $file_local = Storage::disk('local')->put('arquivo_csv', $arquivoCsv, 'public');
         }
 
-        ProcessarImportacaoPacientes::dispatch($arquivo);
+        $jobId = Bus::dispatch(new ProcessarImportacaoPacientes($file_local));
 
-        return response()->json(['message' => 'Importação iniciada com sucesso']);
+        return response()->json(['job_id' => $jobId]);
 
     }
 

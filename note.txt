@@ -25,7 +25,7 @@ Requisitos
  [X][X] Criar endpoints de atualização de paciente contendo os campos e suas respectivas validações
  [X][X] Criar um endpoint para excluir um paciente (paciente e seu endereço).
  [X][X] Criar um endpoint para consulta de CEP que implemente a API do ViaCEP e faça cache (Redis) dos dados para futuras consultas
- [X][] Criar um endpoint que faça importação de dados (pacientes) via arquivo .csv e seja processada em queue assincronamente.
+ [X][X] Criar um endpoint que faça importação de dados (pacientes) via arquivo .csv e seja processada em queue assincronamente.
  [X][X] Utilizar docker e docker-compose para execução do projeto (queremos avaliar seu conhecimento, seja criativo e não use o Laravel Sail).
 
 Diferenciais que você pode entregar no seu projeto:
