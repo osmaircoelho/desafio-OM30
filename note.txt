@@ -30,7 +30,7 @@ Requisitos
 
 Diferenciais que você pode entregar no seu projeto:
  [X] Utilizar algum padrão para commits;
- [] Possuir cobertura de testes unitários de 80% do código (PHP Unit);
+ [X] Possuir cobertura de testes unitários de 80% do código (PHP Unit);
  [] Integrar a aplicação ao Laravel Horizon para o monitoramento das queues;
  [] Utilizar o supervisord para o gerenciamento dos serviços necessários para o desenvolvimento e a execução do projeto;
  [] Utilizar elasticsearch para busca otimizada de pacientes;
@@ -38,7 +38,7 @@ Diferenciais que você pode entregar no seu projeto:
 
 Entrega
 A entrega deve ser feita em um repositório público no GitHub, que deve conter:
- [] O código do projeto versionado no github em repositório público.
+ [X] O código do projeto versionado no github em repositório público.
  [X][] O projeto deve ser entregue de forma "containerizada", com banco de dados (postgres, redis, e php), lembrando das
     configurações necessárias para execução dos testes.
  [X] O projeto deve ter em sua pasta root, uma collection do insomnia nomeada (endpoints.json) contendo endpoints necessários para os testes e a avaliação do desafio.
