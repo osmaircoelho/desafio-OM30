@@ -6,6 +6,8 @@ ARG uid=1000
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
+    software-properties-common \
+    npm \
     git \
     curl \
     libpng-dev \
@@ -16,7 +18,9 @@ RUN apt-get update && apt-get install -y \
     zlib1g-dev \
     libzip-dev \
     unzip
-
+RUN npm install npm@latest -g && \
+    npm install n -g && \
+    n latest
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 

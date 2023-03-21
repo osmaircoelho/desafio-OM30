@@ -1,64 +1,80 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# API de Cadastro de Pacientes
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Um sistema de API para cadastro de pacientes com endereço e cadastro de fotos em geral também pode incluir recursos para
+realizar consultas usando o nome ou CPF do paciente. Ele pode permitir que os profissionais de saúde obtenham informações 
+detalhadas sobre um único paciente, adicionem novos registros, excluam pacientes e atualizem informações existentes.
+Além disso, o sistema pode ter a capacidade de importar dados de arquivos CSV para facilitar a integração com outros sistemas. 
 
-## About Laravel
+## 🚀 Começando
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Essas instruções permitirão que você obtenha uma cópia do projeto em operação na sua máquina local para fins de desenvolvimento e teste.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Consulte **[Implantação](#-implanta%C3%A7%C3%A3o)** para saber como implantar o projeto.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 📋 Pré-requisitos
 
-## Learning Laravel
+[Git](https://git-scm.com/downloads) - Site para download do Git <br>
+[Docker](https://www.docker.com/products/docker-desktop/) - Site para download do Docker 
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 🔧 Instalação
 
-## Laravel Sponsors
+Uma série de exemplos passo-a-passo que informam o que você deve executar para ter um ambiente de desenvolvimento em execução.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+```
+1 - Clone o repositorio 
+digite no prompt de comando 
+git clone git@github.com:osmaircoelho/desafio-OM30.git
+ 
+2 - Entre na pasta do projeto  
+cd desafio-OM30
 
-### Premium Partners
+3 - copie o arquivo .env.example para .env
+cp .env.example .env 
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+4 - Com o docker instalado digite
+docker-compose up -d
 
-## Contributing
+5 - Entre no prompt interativo
+docker-compose exec app bash
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+6 - Instale as dependencias
+composer install
 
-## Code of Conduct
+7 - Instale as dependencias NPM
+npm install
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+8 - Gera a Laravel app key
+php artisan key:generate
 
-## Security Vulnerabilities
+9 - Rode as migration e as seed
+php artisan migrate --seed
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+10 - Digite no nanvegador
+localhost:80 
+```
 
-## License
+## ⚙️ Executando os testes (Não esta totalmente coberto)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```
+php artisan test
+```
+## 🛠️ Construído com
+
+Mencione as ferramentas que você usou para criar seu projeto
+
+* [Laravel](https://laravel.com/docs/8.x) - O framework web usado
+* [Docker](https://docs.docker.com/) - Plataforma open source que facilita a criação e administração de ambientes isolados.
+
+## ✒️ Autores
+
+* **Desenvolvedor** - [Osmair Coelho](https://github.com/osmaircoelho)
+
+## 📄 Licença
+
+Este projeto está sob a licença GNU General Public License v3.0 (GNU GPLv3) - veja o arquivo [GNU.ORG](https://www.gnu.org/licenses/gpl-3.0.pt-br.html) para detalhes.
+## 🎁 Expressões de gratidão
+
+* Obrigado OM30 pelo desafio! 🦾📢;
+---
+⌨️ com ❤️ por [Osmair Coelho](https://github.com/osmaircoelho/) 😊
