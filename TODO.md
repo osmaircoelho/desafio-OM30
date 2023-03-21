@@ -44,12 +44,4 @@ A entrega deve ser feita em um repositório público no GitHub, que deve conter:
  [X] O projeto deve ter em sua pasta root, uma collection do insomnia nomeada (endpoints.json) contendo endpoints necessários para os testes e a avaliação do desafio.
  [X] Deixe o .env.exemple configurado de maneira que o avaliador possa apenas criar uma cópia do mesmo e rodar o projeto sem perder tempo tentando entender como configurar seu projeto.
  [X] O projeto deve ter em sua pasta root, um arquivo nomeado import.csv contento o template necessário para a importação.
- [] Um arquivo README que descreva o que foi feito e as etapas para rodar o projeto, executar os testes e gerar o code coverage.
-
-Instalar o npm install
-#RUN apt-get install -y git-core curl build-essential openssl libssl-dev \
-# && git clone https://github.com/nodejs/node.git \
-# && cd node \
-# && ./configure \
-# && make \
-# && sudo make install
+ [X] Um arquivo README que descreva o que foi feito e as etapas para rodar o projeto, executar os testes e gerar o code coverage.
