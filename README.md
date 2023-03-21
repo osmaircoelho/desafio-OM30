@@ -9,7 +9,7 @@ Além disso, o sistema pode ter a capacidade de importar dados de arquivos CSV p
 
 Essas instruções permitirão que você obtenha uma cópia do projeto em operação na sua máquina local para fins de desenvolvimento e teste.
 
-Consulte **[Implantação](#-implanta%C3%A7%C3%A3o)** para saber como implantar o projeto.
+Consulte **[Instalação](###-Instalação)** para saber como implantar o projeto.
 
 ### 📋 Pré-requisitos
 
