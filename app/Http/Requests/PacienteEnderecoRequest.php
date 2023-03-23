@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\ValidarCNS;
 
 class PacienteEnderecoRequest extends FormRequest
 {
@@ -28,7 +29,7 @@ class PacienteEnderecoRequest extends FormRequest
             'nome_mae'        => 'required|string|max:255',
             'data_nascimento' => 'required|date_format:Y-m-d',
             'cpf'             => 'required|string|max:11',
-            'cns'             => 'required|string|max:15',
+            'cns'             => ['required', new ValidarCNS()],
             'cep'             => 'required|string|max:8',
             'endereco'        => 'required|string|max:255',
             'numero'          => 'required|string|max:255',
