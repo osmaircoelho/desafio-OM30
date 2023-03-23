@@ -2,6 +2,8 @@ version: "3.7"
 
 services:
   app:
+    environment:
+      XDEBUG_CONFIG: remote_host=host.docker.internal
     build:
       args:
         user: osmair
