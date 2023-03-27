@@ -60,9 +60,6 @@ localhost:80
 php artisan test
 ```
 ## 🛠️ Construído com
-
-Mencione as ferramentas que você usou para criar seu projeto
-
 * [Laravel](https://laravel.com/docs/8.x) - O framework web usado
 * [Docker](https://docs.docker.com/) - Plataforma open source que facilita a criação e administração de ambientes isolados.
 
